@@ -2,12 +2,14 @@ package app.accounts.controllers
 
 import app.accounts.adapters.AccountActionsAdapter
 import app.accounts.interfaces.IAccountController
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
+@Component
 class AccountController implements IAccountController {
 
-    AccountController() {
-        // Dependencias que podem ser injetadas
-    }
+    @Autowired
+    AccountActionsAdapter accountActions
 
     @Override
     def createAccount(Object request) {
@@ -17,7 +19,6 @@ class AccountController implements IAccountController {
                 "msg" : null
         ]
         try {
-            AccountActionsAdapter accountActions = new AccountActionsAdapter()
 
             def dataToCreateAccount = request
             responseMap = accountActions.createAccount(dataToCreateAccount)
@@ -25,7 +26,7 @@ class AccountController implements IAccountController {
             return responseMap
         } catch(Exception error) {
             responseMap.success = false
-            responseMap.error = ""
+            responseMap.error = "001"
             responseMap = error.getMessage()
             return responseMap
         }
@@ -39,15 +40,18 @@ class AccountController implements IAccountController {
                 "msg" : null
         ]
         try {
-            AccountActionsAdapter accountActions = new AccountActionsAdapter()
 
             def dataToGetAccount = request
             responseMap = accountActions.getAccountById(dataToGetAccount)
 
+            if(responseMap.success) {
+                responseMap = responseMap.account
+            }
+
             return responseMap
         } catch(Exception error) {
             responseMap.success = false
-            responseMap.error = ""
+            responseMap.error = "002"
             responseMap = error.getMessage()
             return responseMap
         }

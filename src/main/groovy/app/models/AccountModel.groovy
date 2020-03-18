@@ -1,14 +1,27 @@
 package app.models
 
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.Table
+
+@Entity
+@Table(name = 'accounts')
 class AccountModel {
-    private int account_id
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long account_id
+
     private String document_number
 
-    int getAccount_id() {
+
+    Long getAccount_id() {
         return account_id
     }
 
-    void setAccount_id(int account_id) {
+    void setAccount_id(Long account_id) {
         this.account_id = account_id
     }
 
@@ -19,4 +32,9 @@ class AccountModel {
     void setDocument_number(String document_number) {
         this.document_number = document_number
     }
+
+    String getRepository() {
+        return 'accountRepository'
+    }
+
 }

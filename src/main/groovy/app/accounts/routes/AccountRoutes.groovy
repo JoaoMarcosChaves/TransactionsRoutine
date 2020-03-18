@@ -1,6 +1,8 @@
 package app.accounts.routes
 
 import app.accounts.adapters.AccountControllerAdapter
+
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -12,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping('pismo-test/accounts')
 class AccountRoutes {
 
+    @Autowired
+    AccountControllerAdapter controller
+
     @PostMapping('')
     def createAccount(@RequestBody Object newAccountDataReceivedByRequest) {
-        AccountControllerAdapter controller = new AccountControllerAdapter()
-
         def request = newAccountDataReceivedByRequest
         return controller.createTransaction(request)
     }
@@ -23,9 +26,6 @@ class AccountRoutes {
     @GetMapping('{accountId}')
     def getAccountById(@PathVariable long accountId) {
         def request = ["accountId" : accountId]
-
-        AccountControllerAdapter controller = new AccountControllerAdapter()
-
         return controller.getAccountById(request)
     }
 

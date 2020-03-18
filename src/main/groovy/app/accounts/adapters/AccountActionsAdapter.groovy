@@ -5,26 +5,29 @@ import app.accounts.actions.GetAccounts
 import app.accounts.interfaces.ICreateAccount
 import app.accounts.interfaces.IGetAccounts
 import app.databaseOperations.DatabaseOperations
-import app.databaseOperations.IDatabaseOperations
 
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
+
+@Component
 class AccountActionsAdapter {
 
-    private ICreateAccount createAccount
-    private IGetAccounts getAccounts
+    @Autowired
+    private DatabaseOperations databaseOperationsWired
 
-    AccountActionsAdapter() {
-        IDatabaseOperations databaseOperationsToCreateAccounts = new DatabaseOperations()
-        IDatabaseOperations databaseOperationsToGetAccounts = new DatabaseOperations()
+    @Autowired
+    private ICreateAccount createAccount = new CreateAccount(databaseOperationsWired)
 
-        this.createAccount = new CreateAccount(databaseOperationsToCreateAccounts)
-        this.getAccounts = new GetAccounts(databaseOperationsToGetAccounts)
-    }
+    @Autowired
+    private IGetAccounts getAccounts = new GetAccounts(databaseOperationsWired)
+
 
     def createAccount(Object dataToCreateAccount) {
         return this.createAccount.createAccount(dataToCreateAccount)
     }
 
     def getAccountById(Object dataToGetAccount) {
+//        getAccounts = getAccountsWired
         return this.getAccounts.getAccountById(dataToGetAccount)
     }
 

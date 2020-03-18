@@ -1,21 +1,36 @@
 package app.models
 
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.Table
+
+@Entity
+@Table(name = 'transactions')
 class TransactionModel {
-    private int transaction_id
-    private int account_id
+
+    @Id
+    @GeneratedValue(
+        strategy = GenerationType.IDENTITY
+    )
+    private Long transaction_id
+
+    private Long account_id
     private int operation_type_id
     private Double amount
     private Date event_date
 
-    int getTransaction_id() {
+
+    Long getTransaction_id() {
         return transaction_id
     }
 
-    void setTransaction_id(int transaction_id) {
+    void setTransaction_id(Long transaction_id) {
         this.transaction_id = transaction_id
     }
 
-    int getAccount_id() {
+    Long getAccount_id() {
         return account_id
     }
 
@@ -45,5 +60,9 @@ class TransactionModel {
 
     void setEvent_date(Date event_date) {
         this.event_date = event_date
+    }
+
+    String getRepository() {
+        return 'transactionsRepository'
     }
 }
